@@ -8,9 +8,12 @@ const PATHS = {
 
 module.exports = {
   mode: "development",
-  entry: "./src/index.js",
+  entry: {
+    "hello-world": "./src/hello-world.js",
+    dog: "./src/dog.js"
+  },
   output: {
-    filename: "bundle.js",
+    filename: "[name].bundle.js",
     path: PATHS.buid,
     publicPath: ""
   },
@@ -57,8 +60,16 @@ module.exports = {
       cleanOnceBeforeBuildPatterns: ["**/*", path.join(__dirname, "dist/**/*")]
     }),
     new HtmlWebpackPlugin({
+      filename: "hello-world.html",
+      chunks: ["hello-world"],
       title: "Hello world",
-      template: "src/index.hbs"
+      template: "src/page-template.hbs"
+    }),
+    new HtmlWebpackPlugin({
+      filename: "dog.html",
+      chunks: ["dog"],
+      title: "Dog",
+      template: "src/page-template.hbs"
     })
   ]
 };
