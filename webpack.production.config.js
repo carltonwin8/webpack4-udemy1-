@@ -9,11 +9,19 @@ const PATHS = {
 
 module.exports = {
   mode: "production",
-  entry: "./src/index.js",
+  entry: {
+    "hello-world": "./src/hello-world.js",
+    dog: "./src/dog.js"
+  },
   output: {
-    filename: "bundle.[contenthash].js",
+    filename: "[name].[contenthash].js",
     path: PATHS.buid,
     publicPath: ""
+  },
+  optimization: {
+    splitChunks: {
+      chunks: "all"
+    }
   },
   module: {
     rules: [
@@ -49,13 +57,21 @@ module.exports = {
     ]
   },
   plugins: [
-    new MiniCssExtractPlugin({ filename: "styles.[contenthash].css" }),
+    new MiniCssExtractPlugin({ filename: "[name].[contenthash].css" }),
     new CleanWebpackPlugin({
       cleanOnceBeforeBuildPatterns: ["**/*", path.join(__dirname, "dist/**/*")]
     }),
     new HtmlWebpackPlugin({
+      filename: "hello-world.html",
+      chunks: ["hello-world", "vendors~dog~hello-world"],
       title: "Hello world",
-      template: "src/index.hbs"
+      template: "src/page-template.hbs"
+    }),
+    new HtmlWebpackPlugin({
+      filename: "dog.html",
+      chunks: ["dog", "vendors~dog~hello-world"],
+      title: "Dog",
+      template: "src/page-template.hbs"
     })
   ]
 };
