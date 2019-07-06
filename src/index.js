@@ -8,4 +8,10 @@ const helloworld = new helloWorld();
 helloworld.render();
 
 //addImage();
-const ten = 10;
+if (process.env.NODE_ENV === "production") {
+  console.log("production");
+} else if (process.env.NODE_ENV === "development") {
+  console.log("development");
+} else {
+  console.log("none");
+}
